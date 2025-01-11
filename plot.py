@@ -54,14 +54,13 @@ def sub_fig(ax, X, regime_list):
     ax.xaxis.set_major_locator(ticker.MultipleLocator(10000))
     ax.set_yticks([])
     df.plot(ax=ax, legend=False)
-    
+
     ax.tick_params(labelleft=False, direction='in')
 
     for regime_id, regime in enumerate(regime_list):
         for seg_idx in range(regime.n_seg):
-            segment = regime.subs[seg_idx]
-            st = regime.subs[seg_idx][0]
-            ed = sum(regime.subs[seg_idx])
+            st = regime.seg_list[seg_idx][0]
+            ed = sum(regime.seg_list[seg_idx])
 
             r = patches.Rectangle(
                 xy=(int(st), ax.get_ylim()[0]),
@@ -70,7 +69,7 @@ def sub_fig(ax, X, regime_list):
                 ax.get_ylim()[1],
                 fc=colors[regime_id],
                 ec='black',
-                linewidth='1.0',
+                linewidth=int(1),
                 fill=True)
             ax.add_patch(r)
     return ax
@@ -89,7 +88,8 @@ def make_fig(output_dir, X, regime_list):
 
     # save fig
     time_series_path = os.path.join(output_dir, 'result.png')
-    plt.savefig(time_series_path)
+    #plt.show()  # 先显示绘图
+    plt.savefig(time_series_path)  # 再保存图像
     plt.close()
     print('saved')
 
